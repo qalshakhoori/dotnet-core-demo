@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: latest
+
+  pre_build:
+    commands:
+      - echo Restore stated on `date`
+      - dotnet restore dotnet-core-demo
+
+  build:
+    commands:
+      - echo Build stated on `date`
+      - dotnet build dotnet-core-demo
+
+  post_build:
+    commands:
+      - echo Publish started on `date`
+      - dotnet publish -c Release -r linux-x64 --self-contained false dotnet-core-demo
+
+artifacts:
+  files:
+    - '**/*'
+  base-direcotry: ./bin/Release/net6.0/linux-x64/publish/
+  discard-paths: no
